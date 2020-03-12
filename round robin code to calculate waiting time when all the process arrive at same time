@@ -1,0 +1,68 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+	cout<<"                     SCHEDULING:  ROUND ROBIN "<<endl;
+	int n;
+	cout<<"Enter the Total Processes : ";
+	cin>>n;
+	int bt[n],b[n];
+	for(int i=0;i<n;i++)
+	{
+		cout<<"Enter the Burst Time of Process "<<i+1<<" : ";
+		cin>>bt[i];
+		b[i]=bt[i];
+	}
+	cout<<endl;
+	cout<<endl;
+	
+	int Wt[n]={0};
+	int Ct[n]={0};
+	int time=0;
+	int t;
+	cout<<"Enter the time Quantum : ";
+	cin>>t;
+	cout<<endl;
+	cout<<endl;
+	while(accumulate(bt,bt+n,0))
+	{
+		for(int i=0;i<n;i++)
+		{
+			if(bt[i])
+			{
+				if(bt[i]<t)
+				{
+					time+=bt[i];
+					Ct[i]=time;
+					bt[i]=0;
+					
+				}
+				else
+				{
+					bt[i]-=t;
+					time+=t;
+					Ct[i]=time;
+				}
+			}
+		}
+	}
+	cout<<"P_id"<<"\t"<<"CT"<<"\t"<<"bt"<<"\t"<<"WT"<<endl;
+	cout<<endl;
+	for(int i=0;i<n;i++)
+	{
+		cout<<"P"<<i+1<<"\t";
+		cout<<Ct[i]<<"\t";
+		cout<<b[i]<<"\t";
+		
+		Wt[i]=Ct[i]-b[i];
+		cout<<Wt[i]<<endl;
+	}
+	int sum=0;
+	for(int i=0;i<n;i++)
+	{
+		sum=sum+Wt[i];
+	}
+	float avg;
+	avg=sum/n;
+	cout<<"Average waiting Time: "<<avg<<endl;
+}
